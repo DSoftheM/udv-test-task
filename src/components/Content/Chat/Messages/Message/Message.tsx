@@ -11,7 +11,7 @@ export default function Message({ message: { author, date, id, text } }: Message
             <p className="message-item__text">{text}</p>
             <div className="message-item__meta">
                 <p className="message-item__author">{author}</p>
-                <p className="message-item__date">{date.toLocaleDateString()}</p>
+                <p className="message-item__date">{date}</p>
             </div>
         </li>
     );
