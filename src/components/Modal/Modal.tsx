@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { toggleModal } from "../../redux/slices/modalSlice";
 import { setUserInfo } from "../../redux/slices/userSlice";
+import Error from "../Error/Error";
 import './Modal.scss';
 
 interface ModalProps {
@@ -28,13 +29,13 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
         setRoomId(+value);
     };
 
-    const showError = () => setIsError(true);
     const handleClose = () => {
         if (roomId > 0 && name !== '') {
             dispatch(toggleModal());
             dispatch(setUserInfo({ name, roomId }));
+            setIsError(false);
         } else {
-            showError();
+            setIsError(true);
         }
     };
 
@@ -48,7 +49,7 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
                             <option value={id === roomId ? 'active' : id} key={id}>{text}</option>
                         )}
                     </select>
-                    {isError && <p>Заполните все поля</p>}
+                    <Error isError={isError} text="Заполните все поля" />
                     <button type="submit" className="modal__submit" onClick={handleClose}>OK</button>
                 </div>
             </div>
