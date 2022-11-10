@@ -1,10 +1,13 @@
 import { MouseEvent, ChangeEvent, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { rooms } from "../../data/rooms/rooms";
 import './Modal.scss';
 
 interface ModalProps {
 
 }
+
+const modalContainer = document.querySelector('.modal-container') as HTMLElement;
 
 export default function Modal({ }: ModalProps): JSX.Element | null {
     const [name, setName] = useState<string>('');
@@ -30,23 +33,17 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
         }
     };
 
-
-
-
-    return isOpen ? (
-        <div className="modal">
-            <div className="modal__content">
-                <input type="text" className="modal__input" placeholder="Name" value={name} onChange={handleName} />
-                <select className="modal__select" onChange={handleRoom}>
-                    {/* <option value="" disabled selected >Выберите комнату</option>
-                    <option value="1">1 Комната</option>
-                    <option value="2">2 Комната</option>
-                    <option value="3">3 Комната</option> */}
-                    {rooms.map(({ id, text }) => <option value={id} key={id}>{text}</option>)}
-                </select>
-                {isError && <p>Заполните все поля</p>}
-                <button type="submit" className="modal__submit" onClick={handleClose}>OK</button>
+    return isOpen ? createPortal(
+        (
+            <div className="modal">
+                <div className="modal__content">
+                    <input type="text" className="modal__input" placeholder="Name" value={name} onChange={handleName} />
+                    <select className="modal__select" onChange={handleRoom}>
+                        {rooms.map(({ id, text }) => <option value={id} key={id}>{text}</option>)}
+                    </select>
+                    {isError && <p>Заполните все поля</p>}
+                    <button type="submit" className="modal__submit" onClick={handleClose}>OK</button>
+                </div>
             </div>
-        </div>
-    ) : null;
+        ), modalContainer) : null;
 }
