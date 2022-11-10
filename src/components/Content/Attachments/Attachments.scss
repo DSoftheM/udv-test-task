@@ -1,8 +1,7 @@
 .attachments {
     height: 100%;
     background-color: #5B5B5B;
-    padding: 30px 62px 30px 30px;
-    width: 32%;
+    padding: 30px 50px 30px 30px;
     overflow-y: overlay;
 
     &::-webkit-scrollbar {
@@ -29,21 +28,23 @@
     // .attachments__list
     &__list {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 145px;
-        gap: 40px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        gap: 10px;
     }
 
     // .attachments__item
-    &__item {}
+    &__item {
+        height: 100%;
+        aspect-ratio: 1/ 1;
+    }
 
     // .attachments__item img
     &__item img {
-        width: 160px;
         object-fit: cover;
         object-position: center;
-        height: 145px;
-        filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.5));
+        height: 100%;
+        filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.3));
         border-radius: 20px;
     }
 }
