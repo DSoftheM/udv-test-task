@@ -9,9 +9,12 @@ export default function Attachments({ }: AttachmentsProps): JSX.Element {
         <aside className="attachments">
             <h3 className="attachments__title">Вложения</h3>
             <ul className="attachments__list">
-                <li className="attachments__item">1</li>
-                <li className="attachments__item">2</li>
-                <li className="attachments__item">3</li>
+                {
+                    Array(13).fill('').map((_, index) =>
+                        <li className="attachments__item">
+                            <img src={`img/${index + 1}.jpg`} alt="" />
+                        </li>)
+                }
             </ul>
         </aside>
     );

@@ -1,13 +1,49 @@
 .attachments {
     height: 100%;
     background-color: #5B5B5B;
+    padding: 30px 62px 30px 30px;
+    width: 32%;
+    overflow-y: overlay;
+
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgb(43, 43, 43);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgb(134, 134, 221);
+        border-radius: 20px;
+        border: 3px solid rgb(43, 43, 43);
+    }
 
     // .attachments__title
-    &__title {}
+    &__title {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
 
     // .attachments__list
-    &__list {}
+    &__list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 145px;
+        gap: 40px;
+    }
 
     // .attachments__item
     &__item {}
+
+    // .attachments__item img
+    &__item img {
+        width: 160px;
+        object-fit: cover;
+        object-position: center;
+        height: 145px;
+        filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.5));
+        border-radius: 20px;
+    }
 }
