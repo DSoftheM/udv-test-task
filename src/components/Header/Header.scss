@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #434343;
+    align-items: center;
+    padding: 10px 30px;
+
+
+    // .header__name
+    &__name {
+        color: #fff;
+    }
+
+    // .header__buttons
+    &__buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    // .header__button
+    &__button {
+        border: 0;
+        padding: 10px 20px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #6E6D6D;
+    }
+}
