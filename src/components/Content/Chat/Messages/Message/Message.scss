@@ -1,0 +1,26 @@
+.message-item {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    display: inline-block;
+    min-width: 200px;
+
+    // .message-item__text
+    &__text {
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    // .message-item__meta
+    &__meta {
+        color: #8b8b8b;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    // .message-item__author
+    &__author {}
+
+    // .message-item__date
+    &__date {}
+}

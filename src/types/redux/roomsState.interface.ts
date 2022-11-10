@@ -1,4 +1,4 @@
-import { IRoom } from "../room/Room.interface";
+import { IRoom } from "../room/room.interface";
 
 export interface IRoomState {
     rooms: IRoom[];
