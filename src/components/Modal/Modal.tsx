@@ -1,6 +1,7 @@
 import { MouseEvent, ChangeEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { rooms } from "../../data/rooms/rooms";
+import { useAppDispatch } from "../../redux/hooks/hooks";
 import './Modal.scss';
 
 interface ModalProps {
@@ -14,6 +15,7 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
     const [roomId, setRoomId] = useState<number>(0);
     const [isOpen, setIsOpen] = useState<boolean>(true);
     const [isError, setIsError] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     const handleName = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         setName(value);
