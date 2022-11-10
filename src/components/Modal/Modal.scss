@@ -1,0 +1,26 @@
+.modal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // .modal__content
+    &__content {
+        padding: 10px;
+        display: inline-block;
+        background-color: #ccc;
+        display: flex;
+        flex-direction: column;
+    }
+
+    // .modal__close
+    &__close {}
+
+    // .modal__input
+    &__input {}
+}
