@@ -11,7 +11,6 @@ export default function Header({ }: HeaderProps): JSX.Element {
 
     const handleChangeRoomOrName = () => {
         dispatch(toggleModal());
-        console.log('click');
     }
 
     return (

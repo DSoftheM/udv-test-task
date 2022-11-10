@@ -1,6 +1,5 @@
 import { MouseEvent, ChangeEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { rooms } from "../../data/rooms/rooms";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { toggleModal } from "../../redux/slices/modalSlice";
 import { setUserInfo } from "../../redux/slices/userSlice";
@@ -15,9 +14,10 @@ const modalContainer = document.querySelector('.modal-container') as HTMLElement
 export default function Modal({ }: ModalProps): JSX.Element | null {
     const [name, setName] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(0);
-    const [isOpen, setIsOpen] = useState<boolean>(true);
     const [isError, setIsError] = useState<boolean>(false);
-    const isOpenNew = useAppSelector(({ modalReducer }) => modalReducer.isOpen);
+    const isOpen = useAppSelector(({ modalReducer }) => modalReducer.isOpen);
+    const rooms = useAppSelector(({ roomsReducer }) => roomsReducer.rooms);
+
     const dispatch = useAppDispatch();
 
     const handleName = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
@@ -28,11 +28,9 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
         setRoomId(+value);
     };
 
-    const closeWindow = () => setIsOpen(prev => !prev);
     const showError = () => setIsError(true);
     const handleClose = () => {
         if (roomId > 0 && name !== '') {
-            // closeWindow();
             dispatch(toggleModal());
             dispatch(setUserInfo({ name, roomId }));
         } else {
@@ -40,13 +38,15 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
         }
     };
 
-    return isOpenNew ? createPortal(
+    return isOpen ? createPortal(
         (
             <div className="modal">
                 <div className="modal__content">
                     <input type="text" className="modal__input" placeholder="Name" value={name} onChange={handleName} />
-                    <select className="modal__select" onChange={handleRoom}>
-                        {rooms.map(({ id, text }) => <option value={id} key={id}>{text}</option>)}
+                    <select className="modal__select" onChange={handleRoom} defaultValue="active">
+                        {rooms.map(({ id, text }) =>
+                            <option value={id === roomId ? 'active' : id} key={id}>{text}</option>
+                        )}
                     </select>
                     {isError && <p>Заполните все поля</p>}
                     <button type="submit" className="modal__submit" onClick={handleClose}>OK</button>

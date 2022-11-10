@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { modalReducer } from "./slices/modalSlice";
+import { roomsReducer } from "./slices/roomsSlice";
 import { userReducer } from "./slices/userSlice";
 
 const rootReducer = combineReducers({
     userReducer,
-    modalReducer
+    modalReducer,
+    roomsReducer
 });
 
 export const store = configureStore({
