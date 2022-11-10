@@ -1,7 +1,9 @@
 import { MouseEvent, ChangeEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { rooms } from "../../data/rooms/rooms";
-import { useAppDispatch } from "../../redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { toggleModal } from "../../redux/slices/modalSlice";
+import { setUserInfo } from "../../redux/slices/userSlice";
 import './Modal.scss';
 
 interface ModalProps {
@@ -15,6 +17,7 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
     const [roomId, setRoomId] = useState<number>(0);
     const [isOpen, setIsOpen] = useState<boolean>(true);
     const [isError, setIsError] = useState<boolean>(false);
+    const isOpenNew = useAppSelector(({ modalReducer }) => modalReducer.isOpen);
     const dispatch = useAppDispatch();
 
     const handleName = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
@@ -29,13 +32,15 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
     const showError = () => setIsError(true);
     const handleClose = () => {
         if (roomId > 0 && name !== '') {
-            closeWindow();
+            // closeWindow();
+            dispatch(toggleModal());
+            dispatch(setUserInfo({ name, roomId }));
         } else {
             showError();
         }
     };
 
-    return isOpen ? createPortal(
+    return isOpenNew ? createPortal(
         (
             <div className="modal">
                 <div className="modal__content">

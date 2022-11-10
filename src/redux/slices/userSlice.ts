@@ -10,14 +10,12 @@ export const userSlice = createSlice({
     name: 'userSlice',
     initialState,
     reducers: {
-        setName(state: IUserState, action: PayloadAction<string>) {
-            state.name = action.payload;
-        },
-        setRoomId(state: IUserState, action: PayloadAction<number>) {
-            state.roomId = action.payload;
+        setUserInfo(state: IUserState, action: PayloadAction<IUserState>) {
+            state.name = action.payload.name;
+            state.roomId = action.payload.roomId;
         }
     }
 });
 
-export const { setName, setRoomId } = userSlice.actions;
+export const { setUserInfo } = userSlice.actions;
 export const userReducer = userSlice.reducer;
