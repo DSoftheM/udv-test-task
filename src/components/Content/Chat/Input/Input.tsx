@@ -1,11 +1,16 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
 import { addMessage } from '../../../../redux/slices/messagesSlice';
+import { IMessage } from '../../../../types/message/message.interface';
+import { Broadcast } from '../../../../utils/Broadcast';
 import './Input.scss';
 
 interface InputProps {
 
 }
+
+const channel = new Broadcast('app-chat');
+
 
 export default function Input({ }: InputProps): JSX.Element {
     const [message, setMessage] = useState<string>('');
@@ -17,13 +22,20 @@ export default function Input({ }: InputProps): JSX.Element {
     };
 
     const handleMessage = () => {
-        dispatch(addMessage({
+        const messageInstance: Omit<IMessage, 'id'> = {
             author: name,
             date: new Date().toLocaleString(),
             text: message
-        }));
+        };
+        dispatch(addMessage(messageInstance));
         setMessage('');
+        channel.send(messageInstance);
     };
+
+    useEffect(() => {
+        channel.subscribeMessage((e: MessageEvent<IMessage>) => dispatch(addMessage({ ...e.data })));
+        return () => channel.unsubscribeMessage();
+    }, []);
 
     return (
         <div className="input">
