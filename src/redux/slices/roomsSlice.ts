@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IRoomState } from "../../types/redux/roomsState.interface";
+import { IModalRoomState } from "../../types/redux/roomsState.interface";
 import { IUserState } from "../../types/redux/userState.interface";
 
-const initialState: IRoomState = {
+const initialState: IModalRoomState = {
     rooms: [
         {
             text: 'Выберите Комнату',

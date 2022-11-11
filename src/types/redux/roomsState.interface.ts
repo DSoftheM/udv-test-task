@@ -1,5 +1,8 @@
 import { IRoom } from "../room/room.interface";
 
-export interface IRoomState {
-    rooms: IRoom[];
+export interface IModalRoomState {
+    rooms: {
+        id: number;
+        text: string;
+    }[];
 }

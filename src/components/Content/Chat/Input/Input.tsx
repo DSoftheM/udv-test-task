@@ -33,13 +33,19 @@ export default function Input({ }: InputProps): JSX.Element {
         f();
     };
 
+    // useEffect(() => {
+    //     new IndexedDB('messages')
+    //         .openDb(roomId.toString())
+    //         .then(r => console.log(r))
+    // }, []);
+
     const handleMessage = () => {
         const messageInstance: Omit<IMessage, 'id'> = {
             author: name,
             date: new Date().toLocaleString(),
             text: message
         };
-        dispatch(addMessage(messageInstance));
+        dispatch(addMessage({ message: messageInstance, roomId }));
         setMessage('');
         channel.send(messageInstance);
         saveMsgToDB(roomId, message);
@@ -48,7 +54,7 @@ export default function Input({ }: InputProps): JSX.Element {
 
 
     useEffect(() => {
-        channel.subscribeMessage((e: MessageEvent<IMessage>) => dispatch(addMessage({ ...e.data })));
+        channel.subscribeMessage((e: MessageEvent<IMessage>) => dispatch(addMessage({ message: { ...e.data }, roomId })));
         return () => channel.unsubscribeMessage();
     }, [dispatch]);
 

@@ -1,4 +1,6 @@
+import { IMessage } from "../message/message.interface";
+
 export interface IRoom {
-    text: string;
+    messages: IMessage[];
     id: number;
 }
