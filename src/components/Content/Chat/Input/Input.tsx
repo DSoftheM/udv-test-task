@@ -1,4 +1,5 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import { IndexedDB } from '../../../../database/model/IndexedDB.class';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
 import { addMessage } from '../../../../redux/slices/messagesSlice';
 import { IMessage } from '../../../../types/message/message.interface';
@@ -15,10 +16,21 @@ const channel = new Broadcast('app-chat');
 export default function Input({ }: InputProps): JSX.Element {
     const [message, setMessage] = useState<string>('');
     const dispatch = useAppDispatch();
-    const { name } = useAppSelector(({ userReducer: { name } }) => ({ name }));
+    const { name, roomId } = useAppSelector(({ userReducer: { name, roomId } }) => ({ name, roomId }));
 
     const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         setMessage(value);
+    };
+
+    const saveMsgToDB = (roomId: number, message: string) => {
+        const f = async () => {
+            const db = new IndexedDB('messages');
+            db.openDb('messages-store');
+            const currentMessages: string[] = await db.get(roomId.toString()) || [];
+            currentMessages.push(message);
+            await db.set(roomId.toString(), currentMessages);
+        };
+        f();
     };
 
     const handleMessage = () => {
@@ -30,12 +42,15 @@ export default function Input({ }: InputProps): JSX.Element {
         dispatch(addMessage(messageInstance));
         setMessage('');
         channel.send(messageInstance);
+        saveMsgToDB(roomId, message);
     };
+
+
 
     useEffect(() => {
         channel.subscribeMessage((e: MessageEvent<IMessage>) => dispatch(addMessage({ ...e.data })));
         return () => channel.unsubscribeMessage();
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="input">
