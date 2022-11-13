@@ -5,6 +5,10 @@
     display: inline-block;
     max-width: 500px;
 
+    img {
+        border-radius: 20px;
+    }
+
     // .message-item__text
     &__text {
         font-weight: 600;

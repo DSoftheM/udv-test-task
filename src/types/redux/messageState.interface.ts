@@ -1,5 +1,4 @@
-import { IMessage } from "../message/message.interface";
-import { IRoom } from "../room/room.interface";
+import { IRoom } from "../room/Room.interface";
 
 export interface IMessagesState {
     rooms: IRoom[];
