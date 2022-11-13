@@ -1,19 +1,14 @@
-import React, { ChangeEvent, Component, MouseEvent, useEffect, useState } from 'react';
-import { IndexedDB } from '../../../../database/model/IndexedDB.class';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
 import { addMessage } from '../../../../redux/slices/messagesSlice';
+import { setMessageToDatabase } from '../../../../redux/thunks/database/setToDatabase.thunk';
 import { IMessage } from '../../../../types/message/message.interface';
 import { Broadcast } from '../../../../utils/Broadcast';
 import './Input.scss';
 
-interface InputProps {
-
-}
-
 const channel = new Broadcast('app-chat');
 
-
-export default function Input({ }: InputProps): JSX.Element {
+export default function Input(): JSX.Element {
     const [message, setMessage] = useState<string>('');
     const dispatch = useAppDispatch();
     const { name, roomId } = useAppSelector(({ userReducer: { name, roomId } }) => ({ name, roomId }));
@@ -22,37 +17,19 @@ export default function Input({ }: InputProps): JSX.Element {
         setMessage(value);
     };
 
-    const saveMsgToDB = (roomId: number, message: string) => {
-        const f = async () => {
-            const db = new IndexedDB('messages');
-            db.openDb('messages-store');
-            const currentMessages: string[] = await db.get(roomId.toString()) || [];
-            currentMessages.push(message);
-            await db.set(roomId.toString(), currentMessages);
-        };
-        f();
-    };
-
-    // useEffect(() => {
-    //     new IndexedDB('messages')
-    //         .openDb(roomId.toString())
-    //         .then(r => console.log(r))
-    // }, []);
-
     const handleMessage = () => {
-        const messageInstance: Omit<IMessage, 'id'> = {
+        const messageInstance: IMessage = {
             author: name,
             date: new Date().toLocaleString(),
             text: message,
-            roomId
+            roomId,
+            id: -1
         };
         dispatch(addMessage({ message: messageInstance, roomId: roomId }));
         setMessage('');
         channel.send(messageInstance);
-        // saveMsgToDB(roomId, message);
+        dispatch(setMessageToDatabase(messageInstance));
     };
-
-
 
     useEffect(() => {
         channel.subscribeMessage((e: MessageEvent<IMessage>) => {
