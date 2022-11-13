@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, Component, MouseEvent, useEffect, useState } from 'react';
 import { IndexedDB } from '../../../../database/model/IndexedDB.class';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
 import { addMessage } from '../../../../redux/slices/messagesSlice';
@@ -43,20 +43,25 @@ export default function Input({ }: InputProps): JSX.Element {
         const messageInstance: Omit<IMessage, 'id'> = {
             author: name,
             date: new Date().toLocaleString(),
-            text: message
+            text: message,
+            roomId
         };
-        dispatch(addMessage({ message: messageInstance, roomId }));
+        dispatch(addMessage({ message: messageInstance, roomId: roomId }));
         setMessage('');
         channel.send(messageInstance);
-        saveMsgToDB(roomId, message);
+        // saveMsgToDB(roomId, message);
     };
 
 
 
     useEffect(() => {
-        channel.subscribeMessage((e: MessageEvent<IMessage>) => dispatch(addMessage({ message: { ...e.data }, roomId })));
+        channel.subscribeMessage((e: MessageEvent<IMessage>) => {
+            console.log('roomId :>> ', roomId);
+            dispatch(addMessage({ message: { ...e.data }, roomId: e.data.roomId }));
+            console.log('Получил сообщение: ', e.data);
+        });
         return () => channel.unsubscribeMessage();
-    }, [dispatch]);
+    });
 
     return (
         <div className="input">
