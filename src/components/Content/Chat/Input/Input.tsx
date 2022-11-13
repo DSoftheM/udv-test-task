@@ -21,14 +21,12 @@ export default function Input(): JSX.Element {
     const handleMessage = () => {
         if (!message) return;
         setMessage('');
-        const messageInstance: IMessage = {
+        const messageInstance = {
             author: name,
             date: new Date().toLocaleString(),
             text: message,
             roomId,
-            id: -1,
             imgSrc: imageRawData.current
-            // id = -1
         };
         (async () => {
             await dispatch(setMessageToDatabase(messageInstance));
