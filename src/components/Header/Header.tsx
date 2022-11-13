@@ -2,11 +2,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks';
 import { toggleModal } from '../../redux/slices/modalSlice';
 import './Header.scss';
 
-interface HeaderProps {
-
-}
-
-export default function Header({ }: HeaderProps): JSX.Element {
+export default function Header(): JSX.Element {
     const dispatch = useAppDispatch();
 
     const handleChangeRoomOrName = () => {

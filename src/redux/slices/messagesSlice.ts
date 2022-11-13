@@ -1,10 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IndexedDB } from "../../database/model/IndexedDB.class";
 import { IMessage } from "../../types/message/message.interface";
 import { MessagePayload } from "../../types/message/messagePayload.interface";
 import { IMessagesState } from "../../types/redux/messageState.interface";
-import { IRoom } from "../../types/room/room.interface";
-import { useAppSelector } from "../hooks/hooks";
 
 const initialState: IMessagesState = {
     rooms: [

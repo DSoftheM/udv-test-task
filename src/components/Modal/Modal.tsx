@@ -1,4 +1,4 @@
-import { MouseEvent, ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { toggleModal } from "../../redux/slices/modalSlice";
@@ -6,13 +6,9 @@ import { setUserInfo } from "../../redux/slices/userSlice";
 import Error from "../Error/Error";
 import './Modal.scss';
 
-interface ModalProps {
+const modalContainer = document.querySelector('.modal-container') || document.body;
 
-}
-
-const modalContainer = document.querySelector('.modal-container') as HTMLElement;
-
-export default function Modal({ }: ModalProps): JSX.Element | null {
+export default function Modal(): JSX.Element | null {
     const [name, setName] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(0);
     const [isError, setIsError] = useState<boolean>(false);
@@ -49,7 +45,7 @@ export default function Modal({ }: ModalProps): JSX.Element | null {
                             <option value={id === roomId ? 'active' : id} key={id}>{text}</option>
                         )}
                     </select>
-                    <Error isError={isError} text="Заполните все поля" />
+                    {isError && <Error text="Заполните все поля" />}
                     <button type="submit" className="modal__submit" onClick={handleClose}>OK</button>
                 </div>
             </div>

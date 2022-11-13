@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { IModalRoomState } from "../../types/redux/roomsState.interface";
-import { IUserState } from "../../types/redux/userState.interface";
 
 const initialState: IModalRoomState = {
     rooms: [
@@ -26,12 +25,7 @@ const initialState: IModalRoomState = {
 export const roomsSlice = createSlice({
     name: 'roomsSlice',
     initialState,
-    reducers: {
-        // selectRoom(state: typeof initialState) {
-        //     state.isOpen = !state.isOpen;
-        // }
-    }
+    reducers: {}
 });
 
-// export const { toggleModal } = roomsSlice.actions;
 export const roomsReducer = roomsSlice.reducer;

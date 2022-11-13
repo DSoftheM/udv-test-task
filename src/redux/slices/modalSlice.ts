@@ -1,15 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUserState } from "../../types/redux/userState.interface";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    isOpen: true
+interface IInitialState {
+    isOpen: boolean;
 }
+
+const initialState: IInitialState = {
+    isOpen: true
+};
 
 export const modalSlice = createSlice({
     name: 'modalSlice',
     initialState,
     reducers: {
-        toggleModal(state: typeof initialState) {
+        toggleModal(state: IInitialState) {
             state.isOpen = !state.isOpen;
         }
     }

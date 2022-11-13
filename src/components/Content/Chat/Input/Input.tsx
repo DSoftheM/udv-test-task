@@ -1,6 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
-import { addMessage } from '../../../../redux/slices/messagesSlice';
 import { updateMessagesFromDatabase } from '../../../../redux/thunks/database/updateMessagesFromDatabase.thunk';
 import { setMessageToDatabase } from '../../../../redux/thunks/database/setToDatabase.thunk';
 import { IMessage } from '../../../../types/message/message.interface';
@@ -29,9 +28,7 @@ export default function Input(): JSX.Element {
         };
         (async () => {
             await dispatch(setMessageToDatabase(messageInstance));
-            console.log('Положил 1');
             await dispatch(updateMessagesFromDatabase(roomId));
-            console.log('Обновил 1');
             channel.send(messageInstance);
         })();
     };
@@ -39,12 +36,9 @@ export default function Input(): JSX.Element {
     useEffect(() => {
         (async () => {
             await dispatch(updateMessagesFromDatabase(roomId));
-            console.log('Обновил 2');
         })();
         channel.subscribeMessage(async (e: MessageEvent<IMessage>) => {
             await dispatch(updateMessagesFromDatabase(roomId));
-            console.log('Обновил 3');
-            // console.log('Получил сообщение: ', e.data);
         });
         return () => channel.unsubscribeMessage();
     }, [roomId, dispatch]);
