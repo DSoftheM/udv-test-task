@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { setMessageToDatabase } from "../thunks/database/setToDatabase.thunk";
+import { setMessageToDatabase } from "../../thunks/database/setToDatabase.thunk";
 
 interface IDatabaseState {
     isLoading: boolean;
@@ -13,8 +13,8 @@ const initialState: IDatabaseState = {
     isLoading: false
 };
 
-export const databaseSlice = createSlice({
-    name: 'databaseSlice',
+export const setSlice = createSlice({
+    name: 'databaseSlice/set',
     initialState,
     reducers: {},
     extraReducers: {
@@ -30,8 +30,8 @@ export const databaseSlice = createSlice({
             state.isLoading = false;
             state.isFulfilled = true;
             state.errorMessage = '';
-        }
+        },
     }
 });
 
-export const messagesReducer = databaseSlice.reducer;
+export const messagesSetReducer = setSlice.reducer;
