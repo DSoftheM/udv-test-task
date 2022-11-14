@@ -8,6 +8,7 @@ import './Modal.scss';
 
 const modalContainer = document.querySelector('.modal-container') || document.body;
 
+// Modal window ?
 export default function Modal(): JSX.Element | null {
     const [name, setName] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(0);
@@ -38,16 +39,22 @@ export default function Modal(): JSX.Element | null {
     return isOpen ? createPortal(
         (
             <div className="modal">
-                <div className="modal__content">
-                    <input type="text" className="modal__input" placeholder="Name" value={name} onChange={handleName} />
-                    <select className="modal__select" onChange={handleRoom} defaultValue="active">
-                        {rooms.map(({ id, text }) =>
-                            <option value={id === roomId ? 'active' : id} key={id}>{text}</option>
-                        )}
-                    </select>
-                    {isError && <Error text="Заполните все поля" />}
+                <form action="#" className="modal__content">
+                    <div className="modal__name">
+                        <label htmlFor="modal-name">Выберете имя</label>
+                        <input id="modal-name" type="text" className="modal__input" placeholder="Имя" value={name} onChange={handleName} />
+                    </div>
+                    <div className="modal__room">
+                        <label htmlFor="modal-room">Выберете комнату</label>
+                        <select className="modal__select" onChange={handleRoom} defaultValue="active" id="modal-room">
+                            {rooms.map(({ id, text }) =>
+                                <option value={id === roomId ? 'active' : id} key={id}>{text}</option>
+                            )}
+                        </select>
+                    </div>
                     <button type="submit" className="modal__submit" onClick={handleClose}>OK</button>
-                </div>
+                    {isError && <Error text="Заполните все поля" />}
+                </form>
             </div>
         ), modalContainer) : null;
 }

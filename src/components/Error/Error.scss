@@ -1,6 +1,25 @@
 .error-message {
-    background-color: rgb(248, 100, 100);
-    font-weight: 600;
+    background-color: rgb(255, 67, 67);
+    color: white;
     text-align: center;
     border-radius: 4px;
+    animation: errorAnim 1s ease 0s 1 forwards;
+    position: absolute;
+    padding: 10px;
+    top: 0;
+    left: 100%;
+    transform: translate(-100%, 0);
+    min-width: 300px;
+}
+
+@keyframes errorAnim {
+    from {
+        transform: translate(-100%, -100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-100%, 0%);
+        opacity: 1;
+    }
 }
