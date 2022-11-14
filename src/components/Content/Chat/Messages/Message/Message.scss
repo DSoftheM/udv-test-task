@@ -1,9 +1,11 @@
 .message-item {
+    transition: all 0.3s ease 0s;
     padding: 10px;
     border-radius: 10px;
     background-color: #fff;
     display: inline-block;
     max-width: 500px;
+    cursor: alias;
 
     img {
         border-radius: 20px;

@@ -1,0 +1,19 @@
+.message-item.quoted {
+    display: block;
+    border: 1px solid #000;
+}
+
+.message-item.selected {
+    background-color: rgb(137, 238, 142);
+    animation: rotateAnim .3s ease 0s 1 forwards;
+}
+
+@keyframes rotateAnim {
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

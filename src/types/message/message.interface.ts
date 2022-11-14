@@ -1,4 +1,5 @@
 import { IRawData } from "../../utils/getImageRawData";
+import { TypedResendedMessage } from "./ResendedMessage.type";
 
 export interface IMessage {
     text: string;
@@ -7,4 +8,5 @@ export interface IMessage {
     id: number;
     roomId: number;
     imgSrc?: IRawData;
+    resendedMessage?: TypedResendedMessage
 }

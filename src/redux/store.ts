@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { messagesGetReducer } from "./slices/databaseSlices/getSlice";
 import { messagesSetReducer } from "./slices/databaseSlices/setSlice";
 import { modalReducer } from "./slices/modalSlice";
+import { resendedMessageReducer } from "./slices/resendedMessagesSlice";
 import { roomsReducer } from "./slices/roomsSlice";
 import { userReducer } from "./slices/userSlice";
 
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     modalReducer,
     roomsReducer,
     messagesGetReducer,
-    messagesSetReducer
+    messagesSetReducer,
+    resendedMessageReducer
 });
 
 export const store = configureStore({
