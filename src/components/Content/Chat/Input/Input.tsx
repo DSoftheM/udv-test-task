@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
 import { updateMessagesFromDatabase } from '../../../../redux/thunks/database/getMessagesFromDatabase.thunk';
 import { setMessageToDatabase } from '../../../../redux/thunks/database/setToDatabase.thunk';
@@ -67,6 +67,10 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
         }
     }
 
+    const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+        return e.key === 'Enter' ? handleMessage() : null;
+    };
+
     useEffect(() => {
         (async () => {
             await dispatch(updateMessagesFromDatabase(roomId));
@@ -89,6 +93,7 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
                     onChange={handleChange}
                     className="input__text"
                     placeholder={`${resendedMessage ? 'Resended ' : ''} Message...`}
+                    onKeyDown={handlePressEnter}
                 />
             </div>
             <button className="input__send" onClick={handleMessage}>Отправить</button>
