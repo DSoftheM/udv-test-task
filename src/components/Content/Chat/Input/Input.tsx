@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
-import { updateMessagesFromDatabase } from '../../../../redux/thunks/database/updateMessagesFromDatabase.thunk';
+import { updateMessagesFromDatabase } from '../../../../redux/thunks/database/getMessagesFromDatabase.thunk';
 import { setMessageToDatabase } from '../../../../redux/thunks/database/setToDatabase.thunk';
 import { IMessage } from '../../../../types/message/message.interface';
 import { Broadcast } from '../../../../utils/Broadcast';

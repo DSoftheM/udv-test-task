@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IMessage } from "../../../types/message/message.interface";
-import { updateMessagesFromDatabase } from "../../thunks/database/updateMessagesFromDatabase.thunk";
+import { updateMessagesFromDatabase } from "../../thunks/database/getMessagesFromDatabase.thunk";
 
 interface IDatabaseState {
     isLoading: boolean;
