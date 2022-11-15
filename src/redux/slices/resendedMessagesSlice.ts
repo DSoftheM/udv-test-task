@@ -13,9 +13,12 @@ export const resendedMessageSlice = createSlice({
     reducers: {
         setResendedMessage(state: IResendedMessagesState, { payload }: PayloadAction<TypedResendedMessage>) {
             state.resendedMessage = payload;
+        },
+        clearResendedMessage(state: IResendedMessagesState) {
+            state.resendedMessage = undefined;
         }
     }
 });
 
-export const { setResendedMessage } = resendedMessageSlice.actions;
+export const { setResendedMessage, clearResendedMessage } = resendedMessageSlice.actions;
 export const resendedMessageReducer = resendedMessageSlice.reducer;
