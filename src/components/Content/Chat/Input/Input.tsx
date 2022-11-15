@@ -48,6 +48,7 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
         if (input.current) {
             clearFileInput(input.current);
         }
+        dispatch(clearResendedMessage());
         (async () => {
             await dispatch(setMessageToDatabase(messageInstance));
             await dispatch(updateMessagesFromDatabase(roomId));
