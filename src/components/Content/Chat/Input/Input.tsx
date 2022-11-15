@@ -8,6 +8,7 @@ import './Input.scss';
 import { getImageRawData, IRawData } from '../../../../utils/getImageRawData';
 import { TypedResendedMessage } from '../../../../types/message/ResendedMessage.type';
 import { clearResendedMessage } from '../../../../redux/slices/resendedMessagesSlice';
+import Emoji from '../Emoji/Emoji';
 const channel = new Broadcast('app-chat');
 
 interface InputProps {
@@ -35,7 +36,7 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
     };
 
     const handleMessage = () => {
-        if (!message) return;
+        if (!message && imageRawData.current === '') return;
         setMessage('');
         const messageInstance: Omit<IMessage, 'id'> = {
             author: name,
@@ -84,6 +85,7 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
     return (
         <div className="input">
             <div className="input__body">
+                <Emoji />
                 <label htmlFor="input-file" id='input-file-label'>
                     <img src="img/clip.svg" alt="" />
                 </label>

@@ -1,0 +1,39 @@
+.emoji {
+    width: 24px;
+
+    top: 50%;
+    left: 94%;
+    transform: translate(-100%, -50%);
+    position: absolute;
+    cursor: pointer;
+
+
+
+    &__img {
+        transition: all 0.3s ease 0s;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    &__list {
+        background-color: rgba(170, 194, 34, 0.555);
+        display: grid;
+        gap: 10px;
+        position: absolute;
+        transform: translateY(-100%);
+        grid-template-columns: repeat(6, 1fr);
+        width: max-content;
+        left: 0;
+        top: 0;
+
+        img {
+            width: 20px;
+            height: 30px;
+            cursor: pointer;
+        }
+    }
+}

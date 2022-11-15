@@ -7,17 +7,20 @@
     }
 
     #input-file-label {
-        position: absolute;
         top: 50%;
-        cursor: pointer;
+        left: 98%;
         transform: translate(-100%, -50%);
-        left: 99%;
+        position: absolute;
+        cursor: pointer;
         width: 24px;
+        display: flex;
+        align-items: center;
+
         aspect-ratio: 1 / 1;
         transition: all 0.3s ease 0s;
 
         &:hover {
-            transform: translate(-100%, -50%) scale(1.1);
+            transform: translate(-100%, -50%) scale(1.2);
         }
     }
 
