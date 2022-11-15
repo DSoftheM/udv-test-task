@@ -16,9 +16,11 @@ interface InputProps {
 
 export default function Input({ resendedMessage }: InputProps): JSX.Element {
     const [message, setMessage] = useState<string>('');
+
     const imageRawData = useRef<IRawData>('');
-    const dispatch = useAppDispatch();
     const input = useRef<HTMLInputElement>(null);
+
+    const dispatch = useAppDispatch();
 
     const selectedMessage = useAppSelector(({ resendedMessageReducer: { resendedMessage } }) => resendedMessage);
     const { name, roomId } = useAppSelector(({ userReducer: { name, roomId } }) => ({ name, roomId }));
@@ -76,13 +78,18 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
 
     return (
         <div className="input">
-            <input type='file' accept="image/*" onChange={handleImageLoad} ref={input} className="input__file" />
-            <input type="text"
-                value={message}
-                onChange={handleChange}
-                className="input__text"
-                placeholder={`${resendedMessage ? 'Resended ' : ''} Message...`}
-            />
+            <div className="input__body">
+                <label htmlFor="input-file" id='input-file-label'>
+                    <img src="img/clip.svg" alt="" />
+                </label>
+                <input type='file' id='input-file' accept="image/*" onChange={handleImageLoad} ref={input} className="input__file" />
+                <input type="text"
+                    value={message}
+                    onChange={handleChange}
+                    className="input__text"
+                    placeholder={`${resendedMessage ? 'Resended ' : ''} Message...`}
+                />
+            </div>
             <button className="input__send" onClick={handleMessage}>Отправить</button>
         </div>
     );
