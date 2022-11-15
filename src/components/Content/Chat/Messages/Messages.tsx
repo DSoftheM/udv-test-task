@@ -16,7 +16,7 @@ export default function Messages({ messages }: MessagesProps): JSX.Element {
         if (messagesElement) {
             messagesElement.scrollTo({ top: messagesElement.scrollHeight, left: 0, behavior: 'smooth' });
         }
-    });
+    }, [messagesElement, messages]);
 
     return (
         <div className="messages" ref={messagesRef}>
