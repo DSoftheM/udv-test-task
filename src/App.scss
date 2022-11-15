@@ -24,10 +24,13 @@ body {
 .app {
     display: flex;
     flex-direction: column;
-    // height: calc(100% - 55px);
     height: 100vh;
     overflow: hidden;
-    // filter: blur(5px);
+
+}
+
+.app.blured {
+    filter: blur(5px);
 }
 
 
