@@ -7,6 +7,7 @@ import { Broadcast } from '../../../../utils/Broadcast';
 import './Input.scss';
 import { getImageRawData, IRawData } from '../../../../utils/getImageRawData';
 import { TypedResendedMessage } from '../../../../types/message/ResendedMessage.type';
+import { clearResendedMessage } from '../../../../redux/slices/resendedMessagesSlice';
 const channel = new Broadcast('app-chat');
 
 interface InputProps {
@@ -17,12 +18,18 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
     const [message, setMessage] = useState<string>('');
     const imageRawData = useRef<IRawData>('');
     const dispatch = useAppDispatch();
+    const input = useRef<HTMLInputElement>(null);
 
     const selectedMessage = useAppSelector(({ resendedMessageReducer: { resendedMessage } }) => resendedMessage);
     const { name, roomId } = useAppSelector(({ userReducer: { name, roomId } }) => ({ name, roomId }));
 
     const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         setMessage(value);
+    };
+
+    const clearFileInput = (input: HTMLInputElement) => {
+        input.value = '';
+        imageRawData.current = '';
     };
 
     const handleMessage = () => {
@@ -36,6 +43,9 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
             imgSrc: imageRawData.current,
             resendedMessage: selectedMessage
         };
+        if (input.current) {
+            clearFileInput(input.current);
+        }
         (async () => {
             await dispatch(setMessageToDatabase(messageInstance));
             await dispatch(updateMessagesFromDatabase(roomId));
@@ -66,10 +76,11 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
 
     return (
         <div className="input">
-            <input type='file' accept="image/*" onChange={handleImageLoad} />
+            <input type='file' accept="image/*" onChange={handleImageLoad} ref={input} className="input__file" />
             <input type="text"
                 value={message}
                 onChange={handleChange}
+                className="input__text"
                 placeholder={`${resendedMessage ? 'Resended ' : ''} Message...`}
             />
             <button className="input__send" onClick={handleMessage}>Отправить</button>
