@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IMessage } from "../../types/message/message.interface";
-import { MessagePayload } from "../../types/message/messagePayload.interface";
+import { IMessagePayload } from "../../types/message/messagePayload.interface";
 import { IMessagesState } from "../../types/redux/messageState.interface";
 
 const initialState: IMessagesState = {
@@ -24,7 +24,7 @@ export const messagesSlice = createSlice({
     name: 'messagesSlice',
     initialState,
     reducers: {
-        addMessage({ rooms }: IMessagesState, { payload: { message, roomId } }: PayloadAction<MessagePayload>) {
+        addMessage({ rooms }: IMessagesState, { payload: { message, roomId } }: PayloadAction<IMessagePayload>) {
             const room = rooms.find(room => room.id === roomId);
             if (room) {
                 const lastIndex = room.messages.length - 1;

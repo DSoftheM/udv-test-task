@@ -1,13 +1,11 @@
-import { useEffect } from 'react';
-import { useAppSelector } from '../../../redux/hooks/hooks';
+import { IMessage } from '../../../types/message/message.interface';
 import './Attachments.scss';
 
 interface AttachmentsProps {
-
+    messages: IMessage[];
 }
 
-export default function Attachments({ }: AttachmentsProps): JSX.Element {
-    const messages = useAppSelector(({ messagesGetReducer: { messages } }) => messages);
+export default function Attachments({ messages }: AttachmentsProps): JSX.Element {
     const messagesWithImg = messages.filter(msg => msg.imgSrc);
 
     return (

@@ -7,14 +7,24 @@ interface InputProps {
     resendedMessage?: TypedResendedMessage;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleImageLoad: (e: ChangeEvent<HTMLInputElement>) => void;
-    handlePressEnter: (e: KeyboardEvent<HTMLInputElement>) => void;
     sendMessage: () => void;
     sendEmoji: (imgSrc: string) => void;
     message: string;
     inputRef: RefObject<HTMLInputElement>;
 }
 
-export default function Input({ resendedMessage, handleChange, message, handleImageLoad, handlePressEnter, sendMessage, inputRef, sendEmoji }: InputProps): JSX.Element {
+export default function Input({
+    resendedMessage,
+    inputRef,
+    message,
+    handleChange,
+    handleImageLoad,
+    sendMessage,
+    sendEmoji
+}: InputProps): JSX.Element {
+    const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+        return e.key === 'Enter' ? sendMessage() : null;
+    };
 
     return (
         <div className="input">

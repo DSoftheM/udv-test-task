@@ -1,6 +1,6 @@
 import { IMessage } from "./message.interface";
 
-export interface MessagePayload {
+export interface IMessagePayload {
     roomId: number;
     message: Omit<IMessage, 'id'>
 }

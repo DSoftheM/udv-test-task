@@ -1,22 +1,18 @@
 import Input from "./Input/Input";
 import './Chat.scss';
 import Messages from "./Messages/Messages";
-import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks/hooks";
 import { clearResendedMessage } from "../../../redux/slices/resendedMessagesSlice";
-import { updateMessagesFromDatabase } from "../../../redux/thunks/database/getMessagesFromDatabase.thunk";
 import { setMessageToDatabase } from "../../../redux/thunks/database/setToDatabase.thunk";
 import { IMessage } from "../../../types/message/message.interface";
 import { Broadcast } from "../../../utils/Broadcast";
 import { IRawData, getImageRawData } from "../../../utils/getImageRawData";
+import { updateMessagesFromDatabase } from "../../../redux/thunks/database/updateMessagesFromDatabase.thunk";
 
 const channel = new Broadcast('app-chat');
 
 export default function Chat(): JSX.Element {
-    const messages: IMessage[] = useAppSelector(({ messagesGetReducer: { messages } }) => messages);
-
-    // ====================================
-
     const [message, setMessage] = useState<string>('');
 
     const imageRawData = useRef<IRawData>('');
@@ -24,6 +20,7 @@ export default function Chat(): JSX.Element {
 
     const dispatch = useAppDispatch();
 
+    const messages: IMessage[] = useAppSelector(({ messagesGetReducer: { messages } }) => messages);
     const selectedMessage = useAppSelector(({ resendedMessageReducer: { resendedMessage } }) => resendedMessage);
     const { name, roomId } = useAppSelector(({ userReducer: { name, roomId } }) => ({ name, roomId }));
 
@@ -86,10 +83,6 @@ export default function Chat(): JSX.Element {
         }
     }
 
-    const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-        return e.key === 'Enter' ? sendMessage() : null;
-    };
-
     useEffect(() => {
         (async () => {
             await dispatch(updateMessagesFromDatabase(roomId));
@@ -100,18 +93,15 @@ export default function Chat(): JSX.Element {
         return () => channel.unsubscribeMessage();
     }, [roomId, dispatch]);
 
-    // ====================================
-
     return (
         <main className="chat">
             <Messages messages={messages} />
             <Input
-                handleChange={handleChange}
-                handleImageLoad={handleImageLoad}
                 message={message}
-                handlePressEnter={handlePressEnter}
-                sendMessage={sendMessage}
                 inputRef={input}
+                handleImageLoad={handleImageLoad}
+                handleChange={handleChange}
+                sendMessage={sendMessage}
                 sendEmoji={sendEmoji}
             />
         </main>

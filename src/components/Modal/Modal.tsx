@@ -8,7 +8,6 @@ import './Modal.scss';
 
 const modalContainer = document.querySelector('.modal-container') || document.body;
 
-// Modal window ?
 export default function Modal(): JSX.Element | null {
     const [name, setName] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(0);
