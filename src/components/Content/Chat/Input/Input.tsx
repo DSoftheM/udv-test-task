@@ -18,22 +18,23 @@ export default function Input({ resendedMessage, handleChange, message, handleIm
 
     return (
         <div className="input">
-            <div className="input__body">
-
-                <Emoji sendEmoji={sendEmoji} />
-                <label htmlFor="input-file" id='input-file-label'>
-                    <img src="img/clip.svg" alt="" />
-                </label>
-                <input type='file' id='input-file' accept="image/*" onChange={handleImageLoad} ref={inputRef} className="input__file" />
-                <input type="text"
-                    value={message}
-                    onChange={handleChange}
-                    className="input__text"
-                    placeholder={`${resendedMessage ? 'Resended ' : ''} Message...`}
-                    onKeyDown={handlePressEnter}
-                />
+            <div className="input__content">
+                <div className="input__body">
+                    <Emoji sendEmoji={sendEmoji} />
+                    <label htmlFor="input-file" id='input-file-label'>
+                        <img src="img/clip.svg" alt="" />
+                    </label>
+                    <input type='file' id='input-file' accept="image/*" onChange={handleImageLoad} ref={inputRef} className="input__file" />
+                    <input type="text"
+                        value={message}
+                        onChange={handleChange}
+                        className="input__text"
+                        placeholder={`${resendedMessage ? 'Resended ' : ''} Message...`}
+                        onKeyDown={handlePressEnter}
+                    />
+                </div>
+                <button className="input__send" onClick={sendMessage}>Отправить</button>
             </div>
-            <button className="input__send" onClick={sendMessage}>Отправить</button>
         </div>
     );
 }
