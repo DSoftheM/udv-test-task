@@ -1,95 +1,30 @@
-import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../redux/hooks/hooks';
-import { updateMessagesFromDatabase } from '../../../../redux/thunks/database/getMessagesFromDatabase.thunk';
-import { setMessageToDatabase } from '../../../../redux/thunks/database/setToDatabase.thunk';
-import { IMessage } from '../../../../types/message/message.interface';
-import { Broadcast } from '../../../../utils/Broadcast';
+import { ChangeEvent, KeyboardEvent, RefObject } from 'react';
 import './Input.scss';
-import { getImageRawData, IRawData } from '../../../../utils/getImageRawData';
 import { TypedResendedMessage } from '../../../../types/message/ResendedMessage.type';
-import { clearResendedMessage } from '../../../../redux/slices/resendedMessagesSlice';
 import Emoji from '../Emoji/Emoji';
-const channel = new Broadcast('app-chat');
 
 interface InputProps {
     resendedMessage?: TypedResendedMessage;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleImageLoad: (e: ChangeEvent<HTMLInputElement>) => void;
+    handlePressEnter: (e: KeyboardEvent<HTMLInputElement>) => void;
+    sendMessage: () => void;
+    sendEmoji: (imgSrc: string) => void;
+    message: string;
+    inputRef: RefObject<HTMLInputElement>;
 }
 
-export default function Input({ resendedMessage }: InputProps): JSX.Element {
-    const [message, setMessage] = useState<string>('');
-
-    const imageRawData = useRef<IRawData>('');
-    const input = useRef<HTMLInputElement>(null);
-
-    const dispatch = useAppDispatch();
-
-    const selectedMessage = useAppSelector(({ resendedMessageReducer: { resendedMessage } }) => resendedMessage);
-    const { name, roomId } = useAppSelector(({ userReducer: { name, roomId } }) => ({ name, roomId }));
-
-    const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        setMessage(value);
-    };
-
-    const clearFileInput = (input: HTMLInputElement) => {
-        input.value = '';
-        imageRawData.current = '';
-    };
-
-    const handleMessage = () => {
-        if (!message && imageRawData.current === '') return;
-        setMessage('');
-        const messageInstance: Omit<IMessage, 'id'> = {
-            author: name,
-            date: new Date().toLocaleString(),
-            text: message,
-            roomId,
-            imgSrc: imageRawData.current,
-            resendedMessage: selectedMessage
-        };
-        if (input.current) {
-            clearFileInput(input.current);
-        }
-        dispatch(clearResendedMessage());
-        (async () => {
-            await dispatch(setMessageToDatabase(messageInstance));
-            await dispatch(updateMessagesFromDatabase(roomId));
-            channel.send(messageInstance);
-        })();
-    };
-
-    const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
-        const image: File | null | undefined = e.target.files?.item(0);
-        if (image) {
-            getImageRawData(image, (_, reader) => {
-                imageRawData.current = reader.result;
-            });
-        } else {
-            imageRawData.current = '';
-        }
-    }
-
-    const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-        return e.key === 'Enter' ? handleMessage() : null;
-    };
-
-    useEffect(() => {
-        (async () => {
-            await dispatch(updateMessagesFromDatabase(roomId));
-        })();
-        channel.subscribeMessage(async (e: MessageEvent<IMessage>) => {
-            await dispatch(updateMessagesFromDatabase(roomId));
-        });
-        return () => channel.unsubscribeMessage();
-    }, [roomId, dispatch]);
+export default function Input({ resendedMessage, handleChange, message, handleImageLoad, handlePressEnter, sendMessage, inputRef, sendEmoji }: InputProps): JSX.Element {
 
     return (
         <div className="input">
             <div className="input__body">
-                <Emoji />
+
+                <Emoji sendEmoji={sendEmoji} />
                 <label htmlFor="input-file" id='input-file-label'>
                     <img src="img/clip.svg" alt="" />
                 </label>
-                <input type='file' id='input-file' accept="image/*" onChange={handleImageLoad} ref={input} className="input__file" />
+                <input type='file' id='input-file' accept="image/*" onChange={handleImageLoad} ref={inputRef} className="input__file" />
                 <input type="text"
                     value={message}
                     onChange={handleChange}
@@ -98,7 +33,7 @@ export default function Input({ resendedMessage }: InputProps): JSX.Element {
                     onKeyDown={handlePressEnter}
                 />
             </div>
-            <button className="input__send" onClick={handleMessage}>Отправить</button>
+            <button className="input__send" onClick={sendMessage}>Отправить</button>
         </div>
     );
 }

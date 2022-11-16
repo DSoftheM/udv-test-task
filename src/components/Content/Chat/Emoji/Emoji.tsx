@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 import './Emoji.scss';
 
 interface EmojiProps {
-
+    sendEmoji: (imgSrc: string) => void;
 }
 
-export default function Emoji({ }: EmojiProps): JSX.Element {
+export default function Emoji({ sendEmoji }: EmojiProps): JSX.Element {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const handleClick = (e: MouseEvent<HTMLLIElement>, imgSrc: string) => {
+        sendEmoji(imgSrc);
+    };
+
     return (
         <div className="emoji">
             <div className="emoji__img" onClick={() => setIsOpen(prev => !prev)}>
@@ -15,8 +20,8 @@ export default function Emoji({ }: EmojiProps): JSX.Element {
             {isOpen &&
                 <ul className="emoji__list">
                     {
-                        Array(8).fill(null).map((emoji, index) =>
-                            <li key={index}>
+                        Array(17).fill(null).map((_emoji, index) =>
+                            <li className="emoji__item" key={index} onClick={(e) => handleClick(e, `emoji/${index + 1}.svg`)}>
                                 <img src={`emoji/${index + 1}.svg`} alt="" />
                             </li>)
                     }
@@ -25,3 +30,5 @@ export default function Emoji({ }: EmojiProps): JSX.Element {
         </div>
     );
 }
+
+// Проверить код по эмодзи

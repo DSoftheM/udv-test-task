@@ -1,13 +1,10 @@
 .emoji {
     width: 24px;
-
     top: 50%;
     left: 94%;
     transform: translate(-100%, -50%);
     position: absolute;
     cursor: pointer;
-
-
 
     &__img {
         transition: all 0.3s ease 0s;
@@ -20,7 +17,9 @@
     }
 
     &__list {
-        background-color: rgba(170, 194, 34, 0.555);
+        background-color: rgb(71, 71, 70);
+        border-radius: 20px;
+        padding: 10px;
         display: grid;
         gap: 10px;
         position: absolute;
@@ -35,5 +34,13 @@
             height: 30px;
             cursor: pointer;
         }
+    }
+
+    &__item {
+        transition: all 0.3s ease 0s;
+    }
+
+    &__item:hover {
+        transform: scale(1.3);
     }
 }
