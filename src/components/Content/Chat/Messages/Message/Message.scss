@@ -30,3 +30,7 @@
     // .message-item__date
     &__date {}
 }
+
+.message-item.left {
+    align-self: flex-end;
+}

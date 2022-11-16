@@ -13,6 +13,7 @@ interface MessageProps {
 export default function Message({ message: { author, date, id, text, imgSrc, resendedMessage } }: MessageProps): JSX.Element {
     const dispatch = useAppDispatch();
     const currentResendedMessage = useAppSelector(({ resendedMessageReducer: { resendedMessage } }) => resendedMessage);
+    const messageAuthor = useAppSelector(({ userReducer: { name } }) => name);
 
     const handleDblClick = (e: MouseEvent<HTMLLIElement>) => {
         const selectedMessage: TypedResendedMessage = {
@@ -25,7 +26,7 @@ export default function Message({ message: { author, date, id, text, imgSrc, res
     };
 
     const selectedMessage = useAppSelector(({ resendedMessageReducer: { resendedMessage } }) => resendedMessage);
-    const liClassName = `message-item ${selectedMessage?.id === id ? 'selected' : ''}`;
+    const liClassName = `message-item ${selectedMessage?.id === id ? 'selected' : ''} ${messageAuthor === author ? 'left' : ''}`;
 
     return (
         <li className={liClassName} onDoubleClick={handleDblClick}>
